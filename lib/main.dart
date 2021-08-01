@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          body: Text('Hello World !'),
+          body: Text('Hello World'),
         ),
       ),
     );
