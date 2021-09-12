@@ -1,64 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
-  runApp(
-    MyApp(),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      print(googleUser?.email);
+      print(googleUser?.displayName);
+
+      // if (googleUser != null) {
+      //   final GoogleSignInAuthentication googleAuth =
+      //       await googleUser.authentication;
+
+      //   final AuthCredential credential = GoogleAuthProvider.credential(
+      //     accessToken: googleAuth.accessToken,
+      //     idToken: googleAuth.idToken,
+      //   );
+
+      //   print(credential.toString());
+      // }
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final title = 'Cached Images';
     return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Temp(),
-              ],
-            ),
-          ),
+      title: title,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
         ),
+        body: Center(
+            child: TextButton(
+          onPressed: () {
+            signInWithGoogle();
+          },
+          child: Text('Google Sign in'),
+        )),
       ),
     );
   }
-}
 
-class Temp extends StatefulWidget {
-  const Temp({Key? key}) : super(key: key);
-
-  @override
-  _TempState createState() => _TempState();
-}
-
-class _TempState extends State<Temp> {
-  int value = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text(value.toString()),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                value = value + 1;
-              });
-            },
-            child: Text('Click'),
-          )
-        ],
-      ),
-    );
-  }
+  widget({required CircularProgressIndicator child}) {}
 }
